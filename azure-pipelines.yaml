@@ -24,7 +24,7 @@ jobs:
        $postfix = ($env:BUILD_SOURCEBRANCHNAME).Replace('release', '')
        $tag = "$($env:ES_VERSION)-$postfix"
        Write-Host "Setting ES_TAG to '$tag'"
-       echo "##vso[task.setvariable variable=ES_TAG]$tag"
+       Write-Host "##vso[task.setvariable variable=ES_TAG]$tag"
 
 #--------------------------------------------------------------------------------
 

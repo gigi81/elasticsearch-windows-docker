@@ -1,4 +1,5 @@
 name: $(Build.SourceBranchName)$(Rev:.r)
+
 variables:
   ES_VERSION: 7.2.0
   ES_TAG:
@@ -25,7 +26,7 @@ jobs:
 
 #--------------------------------------------------------------------------------
 
--job: build_image
+- job: build_image
   pool:
     vmImage: 'win1803'
     #vmImage: 'windows-2019'

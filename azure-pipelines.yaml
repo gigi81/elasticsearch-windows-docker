@@ -1,0 +1,61 @@
+name: $(Build.SourceBranchName)$(Rev:.r)
+variables:
+  ES_VERSION: 7.2.0
+  ES_TAG:
+
+resources:
+- repo: self
+  clean: true
+
+#--------------------------------------------------------------------------------
+
+- jobs: set_tag
+  pool:
+    name: Hosted
+
+  steps:
+  - task: PowerShell@2
+    inputs:
+      targetType: inline
+      script: |
+       $postfix = ($env:BUILD_SOURCEBRANCHNAME).Replace('release', '')
+       echo "##vso[task.setvariable variable=ES_TAG]$($env:ES_VERSION)-$postfix"
+
+#--------------------------------------------------------------------------------
+
+-jobs: build_image
+  dependsOn:
+  - set_tag
+
+  steps:
+  - checkout: self
+    clean: true
+  
+  - task: Docker@2
+    displayName: login on docker hub
+    inputs:
+      command: login
+      containerRegistry: docker-hub-gigi81
+  
+  - task: Docker@2
+    displayName: image build
+    inputs:
+      command: build
+      repository: gigi81/elasticsearch-windows
+      dockerfile: Dockerfile
+      arguments: --build-arg ARGVERSION="$(ES_VERSION)"
+      tags: $(ES_TAG)
+
+  - script: docker run -d -p 9200:9200 -p 9300:9300 elasticsearch-windows:$(ES_TAG)
+
+  - task: PowerShell@2
+    inputs:
+      targetType: filePath
+      filePath: test.ps1
+
+  #- task: Docker@2
+  #  displayName: Publish Docker Images to Docker Hub
+  #  inputs:
+  #    command: push
+  #    repository: gigi81/azurecross
+  #    tags: tag

@@ -7,9 +7,11 @@ resources:
 - repo: self
   clean: true
 
+jobs:
+
 #--------------------------------------------------------------------------------
 
-- jobs: set_tag
+- job: set_tag
   pool:
     name: Hosted
 
@@ -23,9 +25,15 @@ resources:
 
 #--------------------------------------------------------------------------------
 
--jobs: build_image
+-job: build_image
+  pool:
+    vmImage: 'win1803'
+    #vmImage: 'windows-2019'
+
   dependsOn:
   - set_tag
+  pool:
+    name: Hosted
 
   steps:
   - checkout: self

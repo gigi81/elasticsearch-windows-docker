@@ -22,7 +22,9 @@ jobs:
       targetType: inline
       script: |
        $postfix = ($env:BUILD_SOURCEBRANCHNAME).Replace('release', '')
-       echo "##vso[task.setvariable variable=ES_TAG]$($env:ES_VERSION)-$postfix"
+       $tag = "$($env:ES_VERSION)-$postfix"
+       Write-Host "Setting ES_TAG to '$tag'"
+       echo "##vso[task.setvariable variable=ES_TAG]$tag"
 
 #--------------------------------------------------------------------------------
 
@@ -30,8 +32,8 @@ jobs:
   dependsOn:
   - set_tag
   pool:
-    vmImage: 'win1803'
-    #vmImage: 'windows-2019'
+    vmImage: 'windows-2019'
+    #vmImage: 'win1803'
 
   steps:
   - checkout: self

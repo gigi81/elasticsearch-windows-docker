@@ -2,7 +2,6 @@ name: $(Build.SourceBranchName)$(Rev:.r)
 
 variables:
   ES_VERSION: 7.2.0
-  ES_TAG:
 
 resources:
 - repo: self
@@ -24,7 +23,7 @@ jobs:
        $postfix = ($env:BUILD_SOURCEBRANCHNAME).Replace('release', '')
        $tag = "$($env:ES_VERSION)-$postfix"
        Write-Host "Setting ES_TAG to '$tag'"
-       Write-Host "##vso[task.setvariable variable=ES_TAG]$tag"
+       Write-Host "##vso[task.setvariable variable=ES_TAG;]$tag"
 
 #--------------------------------------------------------------------------------
 
@@ -38,7 +37,17 @@ jobs:
   steps:
   - checkout: self
     clean: true
-  
+
+  steps:
+  - task: PowerShell@2
+    inputs:
+      targetType: inline
+      script: |
+       $postfix = ($env:BUILD_SOURCEBRANCHNAME).Replace('release', '')
+       $tag = "$($env:ES_VERSION)-$postfix"
+       Write-Host "Setting ES_TAG to '$tag'"
+       Write-Host "##vso[task.setvariable variable=ES_TAG;]$tag"
+
   - task: Docker@2
     displayName: login on docker hub
     inputs:
@@ -54,7 +63,7 @@ jobs:
       arguments: --build-arg ARGVERSION="$(ES_VERSION)"
       tags: $(ES_TAG)
 
-  - script: docker run -d -p 9200:9200 -p 9300:9300 elasticsearch-windows:$(ES_TAG)
+  - script: docker run -d -p 9200:9200 -p 9300:9300 elasticsearch-windows:%ES_TAG%
 
   - task: PowerShell@2
     inputs:

@@ -9,7 +9,7 @@ jobs:
 - job: build_image_ltsc2016
   condition: succeeded()
   pool:
-    vmImage: 'win1803'
+    vmImage: 'vs2017-win2016'
 
   steps:
   - template: build-image-template.yaml

@@ -9,7 +9,7 @@ ENV ES_HOME=C:\elasticsearch `
 
 # install elasticsearch
 RUN [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; `
-    Set-Variable -Name 'url' -Value "https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-$($env:ES_VERSION)-windows-x86_64.zip"; `
+    Set-Variable -Name 'url' -Value "https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-$($env:ES_VERSION).zip"; `
     Write-Host "Downloading $url"; `
     Invoke-WebRequest -Uri $url -OutFile 'es.zip'; `
     Write-Host "Extracting and installing to $($env:ES_HOME)"; `

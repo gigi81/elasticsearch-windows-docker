@@ -44,6 +44,7 @@ steps:
   inputs:
     targetType: filePath
     filePath: test.ps1
+    arguments: -Version $(ES_VERSION)
 
 - task: Docker@2
   displayName: publish docker image

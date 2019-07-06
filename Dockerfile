@@ -2,10 +2,8 @@
 
 FROM openjdk:11-jdk-windowsservercore-1809
 
-ARG ARGVERSION
-
 ENV ES_HOME=C:\elasticsearch `
-    ES_VERSION=$ARGVERSION
+    ES_VERSION=7.2.0
 
 # install elasticsearch
 RUN Invoke-WebRequest -Uri "https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-$($env:ES_VERSION)-windows-x86_64.zip" -OutFile 'es.zip'; `

@@ -4,6 +4,7 @@ variables:
   ES_VERSION: 7.2.0
   JDK_VERSION: 11
 
+jobs:
 # --------------------------------------------------
 - job: build_image_ltsc2016
   condition: succeeded()
@@ -27,7 +28,6 @@ variables:
       WIN_VERSION: 'windowsservercore-1803'
 
 # --------------------------------------------------
-jobs:
 - job: build_image_1809
   condition: succeeded()
   pool:

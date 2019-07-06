@@ -49,5 +49,8 @@ while(!$successfull -and (New-TimeSpan -Start $start -End ([datetime]::UtcNow)).
     }
 }
 
-docker logs elasticsearch
-exit(!$successfull)
+if(!$successfull)
+{
+    docker logs elasticsearch
+    exit(1)
+}

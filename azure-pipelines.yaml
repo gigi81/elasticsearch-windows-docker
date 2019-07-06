@@ -7,6 +7,7 @@ variables:
 # --------------------------------------------------
 jobs:
 - job: build_image_1809
+  condition: succeeded()
   pool:
     vmImage: 'windows-2019'
 
@@ -17,6 +18,7 @@ jobs:
 
 # --------------------------------------------------
 - job: build_image_1803
+  condition: succeeded()
   pool:
     vmImage: 'win1803'
 
@@ -27,6 +29,7 @@ jobs:
 
 # --------------------------------------------------
 - job: build_image_ltsc2016
+  condition: succeeded()
   pool:
     vmImage: 'vs2017-win2016'
 

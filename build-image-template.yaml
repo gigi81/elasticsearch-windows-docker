@@ -1,0 +1,31 @@
+parameters:
+  ES_VERSION: '7.2.0'
+  WIN_VERSION: 'windowsservercore-1809'
+  JDK_VERSION: 11
+  
+variables:
+  ES_FROM: 'openjdk:$(JDK_VERSION)-jdk-$(WIN_VERSION)'
+  ES_TAG: '$(ES_VERSION)-$(WIN_VERSION)'
+
+steps:
+- task: Docker@2
+  displayName: login on docker hub
+  inputs:
+    command: login
+    containerRegistry: docker-hub-gigi81
+
+- task: Docker@2
+  displayName: image build
+  inputs:
+    command: build
+    repository: gigi81/elasticsearch-windows
+    dockerfile: Dockerfile
+    arguments: --build-arg ARG_FROM="$(ES_FROM)" ARG_VERSION="$(ES_VERSION)"
+    tags: $(ES_TAG)
+
+- script: docker run -d -p 9200:9200 -p 9300:9300 gigi81/elasticsearch-windows:%ES_TAG%
+
+- task: PowerShell@2
+  inputs:
+    targetType: filePath
+    filePath: test.ps1

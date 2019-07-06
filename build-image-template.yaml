@@ -1,9 +1,11 @@
 parameters:
   WIN_VERSION: 'windowsservercore-1809'
-  ES_FROM: 'openjdk:$(JDK_VERSION)-jdk-${{ parameters.WIN_VERSION }}'
-  ES_TAG: '$(ES_VERSION)-${{ parameters.WIN_VERSION }}'
 
 steps:
+- script: |
+    echo '##vso[task.setvariable variable=ES_FROM]openjdk:$(JDK_VERSION)-jdk-${{ parameters.WIN_VERSION }}'
+    echo '##vso[task.setvariable variable=ES_TAG]$(ES_VERSION)-${{ parameters.WIN_VERSION }}'
+    
 - task: Docker@2
   displayName: login on docker hub
   inputs:

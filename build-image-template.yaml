@@ -12,7 +12,7 @@ steps:
    {
      if($line.StartsWith('FROM '))
      {
-       $line += "FROM $($env:ES_FROM)"
+       $lines += "FROM $($env:ES_FROM)"
      }
      else
      {

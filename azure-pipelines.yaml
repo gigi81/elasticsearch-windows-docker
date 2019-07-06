@@ -1,7 +1,9 @@
-name: $(Build.SourceBranchName)$(Rev:.r)
+name: $(ES_VERSION)$(Rev:.r)
 
 variables:
-  ES_VERSION: 7.2.0
+  #https://www.elastic.co/downloads/past-releases#elasticsearch
+  ES_VERSION: 6.8.1
+  #https://www.elastic.co/support/matrix#matrix_jvm
   JDK_VERSION: 11
 
 jobs:

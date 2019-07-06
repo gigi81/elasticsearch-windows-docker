@@ -2,9 +2,10 @@ name: $(ES_VERSION)$(Rev:.r)
 
 variables:
   #https://www.elastic.co/downloads/past-releases#elasticsearch
-  ES_VERSION: 6.8.1
+  ES_VERSION: 5.6.15
   #https://www.elastic.co/support/matrix#matrix_jvm
-  JDK_VERSION: 11
+  #https://hub.docker.com/_/openjdk
+  JDK_VERSION: 8u212-b04
 
 jobs:
 # --------------------------------------------------

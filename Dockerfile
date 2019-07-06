@@ -1,9 +1,10 @@
 # escape=`
 
 ARG ARG_FROM
-ARG ARG_VERSION
 
 FROM $ARG_FROM
+
+ARG ARG_VERSION
 
 ENV ES_HOME=C:\elasticsearch `
     ES_VERSION=$ARG_VERSION

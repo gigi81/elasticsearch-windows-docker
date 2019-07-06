@@ -1,7 +1,7 @@
 parameters:
   WIN_VERSION: 'windowsservercore-1809'
-  ES_FROM: 'openjdk:$(JDK_VERSION)-jdk-$(WIN_VERSION)'
-  ES_TAG: '$(ES_VERSION)-$(WIN_VERSION)'
+  ES_FROM: 'openjdk:$(JDK_VERSION)-jdk-${{ parameters.WIN_VERSION }}'
+  ES_TAG: '$(ES_VERSION)-${{ parameters.WIN_VERSION }}'
 
 steps:
 - task: Docker@2
@@ -16,8 +16,8 @@ steps:
     command: build
     repository: gigi81/elasticsearch-windows
     dockerfile: Dockerfile
-    arguments: --build-arg ARG_FROM="$(ES_FROM)" ARG_VERSION="$(ES_VERSION)"
-    tags: $(ES_TAG)
+    arguments: --build-arg ARG_FROM="${{ parameters.ES_FROM }}" ARG_VERSION="$(ES_VERSION)"
+    tags: ${{ parameters.ES_TAG }}
 
 - script: docker run -d -p 9200:9200 -p 9300:9300 gigi81/elasticsearch-windows:%ES_TAG%
 

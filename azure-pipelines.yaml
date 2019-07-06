@@ -13,9 +13,7 @@ jobs:
   steps:
   - template: build-image-template.yaml
     parameters:
-      ES_VERSION: $(ES_VERSION)
       WIN_VERSION: 'windowsservercore-1809'
-      JDK_VERSION: $(JDK_VERSION)
 
 # --------------------------------------------------
 - job: build_image_1803
@@ -25,9 +23,7 @@ jobs:
   steps:
   - template: build-image-template.yaml
     parameters:
-      ES_VERSION: $(ES_VERSION)
       WIN_VERSION: 'windowsservercore-1803'
-      JDK_VERSION: $(JDK_VERSION)
 
 # --------------------------------------------------
 - job: build_image_ltsc2016
@@ -37,6 +33,4 @@ jobs:
   steps:
   - template: build-image-template.yaml
     parameters:
-      ES_VERSION: $(ES_VERSION)
       WIN_VERSION: 'windowsservercore-ltsc2016'
-      JDK_VERSION: $(JDK_VERSION)

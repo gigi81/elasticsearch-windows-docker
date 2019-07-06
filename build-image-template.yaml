@@ -1,9 +1,5 @@
 parameters:
-  ES_VERSION: '7.2.0'
   WIN_VERSION: 'windowsservercore-1809'
-  JDK_VERSION: 11
-  
-variables:
   ES_FROM: 'openjdk:$(JDK_VERSION)-jdk-$(WIN_VERSION)'
   ES_TAG: '$(ES_VERSION)-$(WIN_VERSION)'
 

@@ -19,7 +19,8 @@ steps:
        $lines += $line
      }
    }
-   $lines | Set-Content 'Dockerfile'
+   $lines | Write-Host
+   $lines | Set-Content -Path 'Dockerfile'
 
 - task: Docker@2
   displayName: login on docker hub

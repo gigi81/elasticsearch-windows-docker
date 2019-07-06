@@ -1,8 +1,6 @@
 # escape=`
 
-ARG ARG_FROM
-
-FROM $ARG_FROM
+FROM openjdk:11-jdk-windowsservercore-1809
 
 ARG ARG_VERSION
 
@@ -10,7 +8,9 @@ ENV ES_HOME=C:\elasticsearch `
     ES_VERSION=$ARG_VERSION
 
 # install elasticsearch
-RUN Invoke-WebRequest -Uri "https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-$($env:ES_VERSION)-windows-x86_64.zip" -OutFile 'es.zip'; `
+RUN Write-Host "Downloading elasticsearch-$($env:ES_VERSION)"; `
+    Invoke-WebRequest -Uri "https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-$($env:ES_VERSION)-windows-x86_64.zip" -OutFile 'es.zip'; `
+    Write-Host "Extracting and installing to $($env:ES_HOME)"; `
     New-Item -ItemType Directory -Path estemp; `
     Expand-Archive 'es.zip' -DestinationPath estemp; `
     New-Item -ItemType Directory -Path $env:ES_HOME; `

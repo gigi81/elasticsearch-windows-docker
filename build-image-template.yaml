@@ -5,7 +5,22 @@ steps:
 - script: |
     echo ##vso[task.setvariable variable=ES_FROM]openjdk:$(JDK_VERSION)-jdk-${{ parameters.WIN_VERSION }}
     echo ##vso[task.setvariable variable=ES_TAG]$(ES_VERSION)-${{ parameters.WIN_VERSION }}
-    
+
+- pwsh: |
+   $lines = @()
+   foreach($line in Get-Content -Path 'Dockerfile')
+   {
+     if($line.StartsWith('FROM '))
+     {
+       $line += "FROM $($env:ES_FROM)"
+     }
+     else
+     {
+       $lines += $line
+     }
+   }
+   $lines | Set-Content 'Dockerfile'
+
 - task: Docker@2
   displayName: login on docker hub
   inputs:
@@ -18,7 +33,7 @@ steps:
     command: build
     repository: gigi81/elasticsearch-windows
     dockerfile: Dockerfile
-    arguments: --build-arg ARG_FROM="$(ES_FROM)" --build-arg ARG_VERSION="$(ES_VERSION)"
+    arguments: --build-arg ARG_VERSION="$(ES_VERSION)"
     tags: $(ES_TAG)
 
 - script: docker run -d -p 9200:9200 -p 9300:9300 gigi81/elasticsearch-windows:%ES_TAG%

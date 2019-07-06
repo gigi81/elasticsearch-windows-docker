@@ -11,7 +11,7 @@ while(!$successfull -and (New-TimeSpan -Start $start -End ([datetime]::UtcNow)).
     try
     {
         Write-Host "Getting cluster health..."
-        $health = Invoke-RestMethod 'http://localhost:9200/_cluster/health' -TimeoutSec 5
+        $health = Invoke-RestMethod 'http://127.0.0.1:9200/_cluster/health' -TimeoutSec 5
         Write-Host "Cluster status is $($health.status)"
         $successfull = $health.status -eq 'green'
     }
@@ -22,8 +22,5 @@ while(!$successfull -and (New-TimeSpan -Start $start -End ([datetime]::UtcNow)).
     }
 }
 
-if(!$successfull)
-{
-    docker logs elasticsearch
-    exit(1)
-}
+docker logs elasticsearch
+exit(!$successfull)

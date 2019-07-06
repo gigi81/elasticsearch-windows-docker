@@ -5,16 +5,15 @@ variables:
   JDK_VERSION: 11
 
 # --------------------------------------------------
-jobs:
-- job: build_image_1809
+- job: build_image_ltsc2016
   condition: succeeded()
   pool:
-    vmImage: 'windows-2019'
+    vmImage: 'vs2017-win2016'
 
   steps:
   - template: build-image-template.yaml
     parameters:
-      WIN_VERSION: 'windowsservercore-1809'
+      WIN_VERSION: 'windowsservercore-ltsc2016'
 
 # --------------------------------------------------
 - job: build_image_1803
@@ -28,12 +27,13 @@ jobs:
       WIN_VERSION: 'windowsservercore-1803'
 
 # --------------------------------------------------
-- job: build_image_ltsc2016
+jobs:
+- job: build_image_1809
   condition: succeeded()
   pool:
-    vmImage: 'vs2017-win2016'
+    vmImage: 'windows-2019'
 
   steps:
   - template: build-image-template.yaml
     parameters:
-      WIN_VERSION: 'windowsservercore-ltsc2016'
+      WIN_VERSION: 'windowsservercore-1809'

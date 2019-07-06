@@ -23,7 +23,7 @@ RUN [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tl
     Remove-Item estemp -Recurse -Force;
 
 # configure elasticsearch
-RUN $config = @('cluster.name: docker-cluster', 'network.host: 0.0.0.0', 'node.name: node01', 'cluster.initial_master_nodes: node01'); `
+RUN $config = @('cluster.name: docker-cluster', 'network.host: 0.0.0.0', 'node.name: node01'); `
     [string]::Join([Environment]::NewLine, $config) | Add-Content -Path "$env:ES_HOME\config\elasticsearch.yml";
 
 EXPOSE 9200 9300

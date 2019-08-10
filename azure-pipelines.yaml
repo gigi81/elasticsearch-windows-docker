@@ -1,5 +1,12 @@
 name: $(Build.SourceBranchName)$(Rev:.r)
 
+trigger:
+  branches:
+    include:
+    - release/*
+    exclude:
+    - master
+
 variables:
   ES_VERSION: 7.3.0
   JDK_VERSION: 11

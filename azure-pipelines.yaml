@@ -1,7 +1,7 @@
 name: $(Build.SourceBranchName)$(Rev:.r)
 
 variables:
-  ES_VERSION: 7.3.0
+  ES_VERSION: 7.4.0
   JDK_VERSION: 11
 
 jobs:

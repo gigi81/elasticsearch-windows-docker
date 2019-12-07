@@ -8,8 +8,8 @@ trigger:
     - master
 
 variables:
-  ES_VERSION: 7.3.0
-  JDK_VERSION: 11
+  ES_VERSION: 7.5.0
+  JDK_VERSION: 13
 
 jobs:
 # --------------------------------------------------

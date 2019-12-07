@@ -12,10 +12,13 @@ You can find all available tags and images in the docker hub repository:
 
 https://hub.docker.com/r/gigi81/elasticsearch-windows/tags
 
-To start Elasticsearch on the default port just run one of these 3 commands, depending on the version of Windows you are using:
+To start Elasticsearch on the default port just run one of these 3 commands, depending on the version of Windows (host) you are using:
 
 ```
-docker run -d -p 9200:9200 -p 9300:9300 gigi81/elasticsearch-windows:7.4.0-windowsservercore-1809
-docker run -d -p 9200:9200 -p 9300:9300 gigi81/elasticsearch-windows:7.4.0-windowsservercore-1803
-docker run -d -p 9200:9200 -p 9300:9300 gigi81/elasticsearch-windows:7.4.0-windowsservercore-ltsc2016
+docker run -d -p 9200:9200 -p 9300:9300 gigi81/elasticsearch-windows:7.5.0-windowsservercore-1809
+docker run -d -p 9200:9200 -p 9300:9300 gigi81/elasticsearch-windows:7.5.0-windowsservercore-1803
+docker run -d -p 9200:9200 -p 9300:9300 gigi81/elasticsearch-windows:7.5.0-windowsservercore-ltsc2016
 ```
+
+For more details about host => image os version compatibility, check:
+https://docs.microsoft.com/en-us/virtualization/windowscontainers/deploy-containers/version-compatibility?tabs=windows-server-1909%2Cwindows-10-1909

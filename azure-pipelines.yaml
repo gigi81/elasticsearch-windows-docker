@@ -38,3 +38,31 @@ jobs:
   - template: build-image-template.yaml
     parameters:
       WIN_VERSION: 'windowsservercore-1809'
+
+# ------- Package ---------------------------------------------------------
+- job: manifest
+  dependsOn:
+  - build_image_ltsc2016
+  - build_image_1803
+  - build_image_1809
+  condition: succeeded()
+  pool:
+    name: Hosted
+
+  steps:
+  - task: Docker@2
+    displayName: login on docker hub
+    inputs:
+      command: login
+      containerRegistry: docker-hub-gigi81
+
+  - bash: |
+     mkdir -p ~/.docker
+     echo '{ "experimental": "enabled" }' > ~/.docker/config.json
+     docker --config ~/.docker manifest create gigi81/elasticsearch-windows:$(ES_VERSION) \
+                                               gigi81/elasticsearch-windows:$(ES_VERSION)-windowsservercore-ltsc2016 \
+                                               gigi81/elasticsearch-windows:$(ES_VERSION)-windowsservercore-1803 \
+                                               gigi81/elasticsearch-windows:$(ES_VERSION)-windowsservercore-1809
+
+     docker --config ~/.docker manifest push gigi81/elasticsearch-windows:$(ES_VERSION)
+    displayName: 'create and publish manifest'

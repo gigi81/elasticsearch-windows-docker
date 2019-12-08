@@ -1,3 +1,5 @@
+# https://aka.ms/yaml
+
 name: $(Build.SourceBranchName)$(Rev:.r)
 
 #https://www.elastic.co/support/matrix#matrix_jvm
@@ -14,24 +16,22 @@ jobs:
 
   steps:
   - bash: |
-     mkdir -p ~/.docker
-     echo '{ "experimental": "enabled" }' > ~/.docker/config.json
+     export DOCKER_CLI_EXPERIMENTAL=enabled
     displayName: 'create experimental docker config file'
-
-  - bash: |
-     docker --config ~/.docker manifest create gigi81/elasticsearch-windows:${ES_VERSION} \
-                                               gigi81/elasticsearch-windows:${ES_VERSION}-windowsservercore-ltsc2016 \
-                                               gigi81/elasticsearch-windows:${ES_VERSION}-windowsservercore-1803 \
-                                               gigi81/elasticsearch-windows:${ES_VERSION}-windowsservercore-1809
-    displayName: 'create manifest'
 
   - task: Docker@2
     displayName: login on docker hub
     inputs:
       command: login
       containerRegistry: docker-hub-gigi81
-      arguments: --config ~/.docker
 
   - bash: |
-     docker --config ~/.docker manifest push gigi81/elasticsearch-windows:${ES_VERSION}
+     docker manifest create gigi81/elasticsearch-windows:${ES_VERSION} \
+                                               gigi81/elasticsearch-windows:${ES_VERSION}-windowsservercore-ltsc2016 \
+                                               gigi81/elasticsearch-windows:${ES_VERSION}-windowsservercore-1803 \
+                                               gigi81/elasticsearch-windows:${ES_VERSION}-windowsservercore-1809
+    displayName: 'create manifest'
+
+  - bash: |
+     docker manifest push gigi81/elasticsearch-windows:${ES_VERSION}
     displayName: publish manifest

@@ -14,15 +14,15 @@ jobs:
 
   steps:
   - bash: |
-     echo $DOCKER_CONFIG
-     echo '{ "experimental": "enabled" }' | sudo tee $DOCKER_CONFIG/config.json
-    displayName: 'enable docker experimental'
+     mkdir -p ~/.docker
+     echo '{ "experimental": "enabled" }' > ~/.docker/config.json
+    displayName: 'create experimental docker config file'
 
   - bash: |
-     docker manifest create gigi81/elasticsearch-windows:${ES_VERSION} \
-                            gigi81/elasticsearch-windows:${ES_VERSION}-windowsservercore-ltsc2016 \
-                            gigi81/elasticsearch-windows:${ES_VERSION}-windowsservercore-1803 \
-                            gigi81/elasticsearch-windows:${ES_VERSION}-windowsservercore-1809
+     docker --config ~/.docker manifest create gigi81/elasticsearch-windows:${ES_VERSION} \
+                                               gigi81/elasticsearch-windows:${ES_VERSION}-windowsservercore-ltsc2016 \
+                                               gigi81/elasticsearch-windows:${ES_VERSION}-windowsservercore-1803 \
+                                               gigi81/elasticsearch-windows:${ES_VERSION}-windowsservercore-1809
     displayName: 'create manifest'
 
   - task: Docker@2
@@ -30,7 +30,8 @@ jobs:
     inputs:
       command: login
       containerRegistry: docker-hub-gigi81
+      arguments: --config ~/.docker
 
   - bash: |
-     docker manifest push gigi81/elasticsearch-windows:${ES_VERSION}
+     docker --config ~/.docker manifest push gigi81/elasticsearch-windows:${ES_VERSION}
     displayName: publish manifest

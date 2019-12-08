@@ -47,7 +47,7 @@ jobs:
   - build_image_1809
   condition: succeeded()
   pool:
-    name: Hosted
+    vmImage: 'Ubuntu-16.04'
 
   steps:
   - task: Docker@2

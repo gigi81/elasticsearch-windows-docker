@@ -12,13 +12,6 @@ jobs:
   pool:
     vmImage: 'Ubuntu-16.04'
 
-  steps:
-  - task: Docker@2
-    displayName: login on docker hub
-    inputs:
-      command: login
-      containerRegistry: docker-hub-gigi81
-
   - bash: |
      mkdir -p ~/.docker
      echo '{ "experimental": "enabled" }' > ~/.docker/config.json
@@ -28,9 +21,13 @@ jobs:
                                                gigi81/elasticsearch-windows:${ES_VERSION}-windowsservercore-1809
     displayName: 'create manifest'
 
+  steps:
   - task: Docker@2
-    displayName: publish manifest
+    displayName: login on docker hub
     inputs:
-      command: push
-      repository: gigi81/elasticsearch-windows
-      tags: $(ES_VERSION)
+      command: login
+      containerRegistry: docker-hub-gigi81
+
+  - bash: |
+     docker manifest push gigi81/elasticsearch-windows:${ES_VERSION}
+    displayName: publish manifest

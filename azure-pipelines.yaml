@@ -14,8 +14,8 @@ jobs:
 
   steps:
   - bash: |
-     echo '{ "experimental": true }' | sudo tee /etc/docker/daemon.json
-     sudo service docker restart
+     cat $DOCKER_CONFIG/config.json | jq '. + { "experimental": "enabled" }' > $DOCKER_CONFIG/experimental.json
+     mv -f $DOCKER_CONFIG/experimental.json $DOCKER_CONFIG/config.json
     displayName: 'enable docker experimental'
 
   - bash: |

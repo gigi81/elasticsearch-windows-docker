@@ -12,6 +12,7 @@ jobs:
   pool:
     vmImage: 'Ubuntu-16.04'
 
+  steps:
   - bash: |
      mkdir -p ~/.docker
      echo '{ "experimental": "enabled" }' > ~/.docker/config.json
@@ -21,7 +22,6 @@ jobs:
                                                gigi81/elasticsearch-windows:${ES_VERSION}-windowsservercore-1809
     displayName: 'create manifest'
 
-  steps:
   - task: Docker@2
     displayName: login on docker hub
     inputs:

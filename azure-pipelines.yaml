@@ -6,6 +6,7 @@ name: $(Build.SourceBranchName)$(Rev:.r)
 variables:
   ES_VERSION: 7.5.0
   JDK_VERSION: 13
+  DOCKER_CLI_EXPERIMENTAL: enabled
 
 jobs:
 # ------- Package ---------------------------------------------------------
@@ -15,10 +16,6 @@ jobs:
     vmImage: 'Ubuntu-16.04'
 
   steps:
-  - bash: |
-     export DOCKER_CLI_EXPERIMENTAL=enabled
-    displayName: 'create experimental docker config file'
-
   - task: Docker@2
     displayName: login on docker hub
     inputs:

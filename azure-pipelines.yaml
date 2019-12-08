@@ -16,6 +16,9 @@ jobs:
   - bash: |
      mkdir -p ~/.docker
      echo '{ "experimental": "enabled" }' > ~/.docker/config.json
+    displayName: 'enable docker experimental'
+
+  - bash: |
      docker --config ~/.docker manifest create gigi81/elasticsearch-windows:${ES_VERSION} \
                                                gigi81/elasticsearch-windows:${ES_VERSION}-windowsservercore-ltsc2016 \
                                                gigi81/elasticsearch-windows:${ES_VERSION}-windowsservercore-1803 \
@@ -29,5 +32,5 @@ jobs:
       containerRegistry: docker-hub-gigi81
 
   - bash: |
-     docker manifest push gigi81/elasticsearch-windows:${ES_VERSION}
+     docker --config ~/.docker manifest push gigi81/elasticsearch-windows:${ES_VERSION}
     displayName: publish manifest

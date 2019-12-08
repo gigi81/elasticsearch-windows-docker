@@ -1,16 +1,52 @@
-# https://aka.ms/yaml
-
 name: $(Build.SourceBranchName)$(Rev:.r)
 
 #https://www.elastic.co/support/matrix#matrix_jvm
 variables:
   ES_VERSION: 7.5.0
   JDK_VERSION: 13
+  #to enable docker cli manifest commands https://docs.docker.com/engine/reference/commandline/manifest/
   DOCKER_CLI_EXPERIMENTAL: enabled
 
 jobs:
+# --------------------------------------------------
+- job: build_image_ltsc2016
+  condition: succeeded()
+  pool:
+    vmImage: 'vs2017-win2016'
+
+  steps:
+  - template: build-image-template.yaml
+    parameters:
+      WIN_VERSION: 'windowsservercore-ltsc2016'
+
+# --------------------------------------------------
+- job: build_image_1803
+  condition: succeeded()
+  pool:
+    vmImage: 'win1803'
+
+  steps:
+  - template: build-image-template.yaml
+    parameters:
+      WIN_VERSION: 'windowsservercore-1803'
+
+# --------------------------------------------------
+- job: build_image_1809
+  condition: succeeded()
+  pool:
+    vmImage: 'windows-2019'
+
+  steps:
+  - template: build-image-template.yaml
+    parameters:
+      WIN_VERSION: 'windowsservercore-1809'
+
 # ------- Package ---------------------------------------------------------
 - job: manifest
+  dependsOn:
+  - build_image_ltsc2016
+  - build_image_1803
+  - build_image_1809
   condition: succeeded()
   pool:
     vmImage: 'Ubuntu-16.04'

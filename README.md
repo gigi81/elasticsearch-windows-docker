@@ -15,7 +15,7 @@ https://hub.docker.com/r/gigi81/elasticsearch-windows/tags
 To start Elasticsearch on the default port(s) just run:
 
 ```
-docker run -d -p 9200:9200 -p 9300:9300 gigi81/elasticsearch-windows:7.5.0
+docker run -d -p 9200:9200 -p 9300:9300 gigi81/elasticsearch-windows:7.6.1
 ```
 
 For more details about host => image os version compatibility, check:

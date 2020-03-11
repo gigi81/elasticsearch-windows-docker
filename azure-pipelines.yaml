@@ -8,7 +8,9 @@ trigger:
     - master
 
 variables:
-  ES_VERSION: 7.5.0
+  #https://www.elastic.co/guide/en/elasticsearch/reference/current/es-release-notes.html
+  ES_VERSION: 7.6.1
+  #https://www.elastic.co/support/matrix#matrix_jvm
   JDK_VERSION: 13
   #to enable docker cli manifest commands https://docs.docker.com/engine/reference/commandline/manifest/
   DOCKER_CLI_EXPERIMENTAL: enabled

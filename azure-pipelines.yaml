@@ -42,7 +42,6 @@ jobs:
 - job: manifest
   dependsOn:
   - build_image_ltsc2016
-  - build_image_1803
   - build_image_1809
   condition: succeeded()
   pool:
@@ -58,7 +57,6 @@ jobs:
   - bash: |
      docker manifest create gigi81/elasticsearch-windows:${ES_VERSION} \
                                                gigi81/elasticsearch-windows:${ES_VERSION}-windowsservercore-ltsc2016 \
-                                               gigi81/elasticsearch-windows:${ES_VERSION}-windowsservercore-1803 \
                                                gigi81/elasticsearch-windows:${ES_VERSION}-windowsservercore-1809
     displayName: 'create manifest'
 

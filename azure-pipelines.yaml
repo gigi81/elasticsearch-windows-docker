@@ -9,9 +9,9 @@ trigger:
 
 variables:
   #https://www.elastic.co/guide/en/elasticsearch/reference/current/es-release-notes.html
-  ES_VERSION: 7.6.1
+  ES_VERSION: 7.7.0
   #https://www.elastic.co/support/matrix#matrix_jvm
-  JDK_VERSION: 13
+  JDK_VERSION: 14
   #to enable docker cli manifest commands https://docs.docker.com/engine/reference/commandline/manifest/
   DOCKER_CLI_EXPERIMENTAL: enabled
 
@@ -28,17 +28,6 @@ jobs:
       WIN_VERSION: 'windowsservercore-ltsc2016'
 
 # --------------------------------------------------
-- job: build_image_1803
-  condition: succeeded()
-  pool:
-    vmImage: 'win1803'
-
-  steps:
-  - template: build-image-template.yaml
-    parameters:
-      WIN_VERSION: 'windowsservercore-1803'
-
-# --------------------------------------------------
 - job: build_image_1809
   condition: succeeded()
   pool:
@@ -53,7 +42,6 @@ jobs:
 - job: manifest
   dependsOn:
   - build_image_ltsc2016
-  - build_image_1803
   - build_image_1809
   condition: succeeded()
   pool:
@@ -69,7 +57,6 @@ jobs:
   - bash: |
      docker manifest create gigi81/elasticsearch-windows:${ES_VERSION} \
                                                gigi81/elasticsearch-windows:${ES_VERSION}-windowsservercore-ltsc2016 \
-                                               gigi81/elasticsearch-windows:${ES_VERSION}-windowsservercore-1803 \
                                                gigi81/elasticsearch-windows:${ES_VERSION}-windowsservercore-1809
     displayName: 'create manifest'
 
